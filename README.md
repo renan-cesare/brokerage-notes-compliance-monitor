@@ -1,94 +1,94 @@
 # Brokerage Notes Compliance Monitor
 
-> Corporate-grade Python pipeline for extracting, normalizing and monitoring brokerage notes (B3 / Bovespa / BM&F) from PDF files, generating a consolidated Excel history with automatic compliance flags.
+> Pipeline corporativo em Python para extração, normalização e monitoramento de notas de corretagem (B3 / Bovespa / BM&F) a partir de arquivos PDF, com geração de histórico consolidado em Excel e aplicação automática de flags de compliance.
 
 ---
 
-## 📌 Business Context
+## 📌 Contexto de Negócio
 
-In brokerage offices, compliance and risk teams must continuously monitor clients' operations to detect **restricted or sensitive activities**, such as:
+Em escritórios de investimento, as áreas de **risco e compliance** precisam monitorar continuamente as operações dos clientes para identificar **atividades restritas ou sensíveis**, tais como:
 
-* Day Trade operations
-* Mini contracts (WIN / WDO)
-* Futures (e.g. DI)
-* Options
-* Term operations
-* Other special trading conditions (coverage, direct trades, etc.)
+* Operações de Day Trade
+* Mini contratos (WIN / WDO)
+* Contratos futuros (ex.: DI)
+* Opções
+* Operações a termo
+* Outras condições especiais de negociação (cobertura, negócios diretos, etc.)
 
-These operations are reported daily in **PDF brokerage notes**, which:
+Essas operações são reportadas diariamente por meio de **notas de corretagem em PDF**, que:
 
-* Have multiple layouts (Bovespa and BM&F)
-* Are not machine-friendly
-* Often break table structure when converted to text
+* Possuem múltiplos layouts (Bovespa e BM&F)
+* Não são estruturadas para leitura por máquina
+* Frequentemente quebram a estrutura de tabelas quando convertidas para texto
 
-This project was built to **automate this entire process**.
+Este projeto foi criado para **automatizar integralmente esse processo**.
 
 ---
 
-## 🧠 What This System Does
+## 🧠 O Que Este Sistema Faz
 
-This pipeline:
+Este pipeline:
 
-1. Reads **all PDF brokerage notes** from a folder
-2. Parses:
+1. Lê **todas as notas de corretagem em PDF** a partir de uma pasta
+2. Faz o parsing de:
 
-   * Bovespa layout (including single-line and multi-line broken tables)
-   * BM&F layout
-3. Extracts:
+   * Layout Bovespa (incluindo tabelas quebradas em linha única e multilinha)
+   * Layout BM&F
+3. Extrai:
 
-   * Client data
-   * Trade data
-   * Asset
-   * Quantities, prices, values
-   * OBS codes and their meanings
-4. Generates a **unique operation ID** to avoid duplicates
-5. Merges new data with an **existing Excel history**
-6. Applies **compliance rules** and flags:
+   * Dados do cliente
+   * Dados das operações
+   * Ativo negociado
+   * Quantidades, preços e valores
+   * Códigos OBS e seus significados
+4. Gera um **ID único de operação** para evitar duplicidades
+5. Consolida os novos dados com um **histórico existente em Excel**
+6. Aplica **regras de compliance** e flags para identificar:
 
    * Day trade
-   * Mini contracts
-   * Futures (DI)
-   * Options
-   * Term operations
-7. Saves everything to an **Excel file** with:
+   * Mini contratos
+   * Futuros (DI)
+   * Opções
+   * Operações a termo
+7. Salva tudo em um **arquivo Excel** com:
 
-   * Full historical base
-   * Automatic deduplication
-   * Conditional formatting highlighting flagged operations
+   * Base histórica completa
+   * Deduplicação automática
+   * Formatação condicional destacando operações sinalizadas
 
 ---
 
-## 🗂️ Project Structure
+## 🗂️ Estrutura do Projeto
 
 ```
 brokerage-notes-compliance-monitor/
 ├─ src/
 │  └─ brokerage_notes_monitor/
-│     ├─ app.py            # Orchestrates the pipeline
-│     ├─ config.py         # Loads configuration
-│     ├─ logging_config.py # Logging setup
-│     ├─ pdf_extract.py    # All PDF parsing logic (core)
-│     ├─ rules.py          # Compliance rules and flags
-│     └─ excel_store.py    # Excel persistence and formatting
+│     ├─ app.py            # Orquestra o pipeline
+│     ├─ config.py         # Carrega configurações
+│     ├─ logging_config.py # Configuração de logging
+│     ├─ pdf_extract.py    # Lógica de parsing dos PDFs (núcleo do sistema)
+│     ├─ rules.py          # Regras e flags de compliance
+│     └─ excel_store.py    # Persistência e formatação no Excel
 ├─ configs/
 │  └─ config.example.json
-├─ main.py                 # CLI entrypoint
+├─ main.py                 # Entrypoint da aplicação (CLI)
 ├─ requirements.txt
 └─ README.md
 ```
 
 ---
 
-## ⚙️ Installation
+## ⚙️ Instalação
 
-Create a virtual environment (optional but recommended):
+Crie um ambiente virtual (opcional, mas recomendado):
 
 ```bash
 python -m venv .venv
 .venv\\Scripts\\activate   # Windows
 ```
 
-Install dependencies:
+Instale as dependências:
 
 ```bash
 pip install -r requirements.txt
@@ -96,15 +96,15 @@ pip install -r requirements.txt
 
 ---
 
-## 🛠️ Configuration
+## 🛠️ Configuração
 
-Copy the example config:
+Copie o arquivo de exemplo:
 
 ```bash
 cp configs/config.example.json configs/config.json
 ```
 
-Edit `configs/config.json`:
+Edite o arquivo `configs/config.json`:
 
 ```json
 {
@@ -126,21 +126,21 @@ Edit `configs/config.json`:
 
 ---
 
-## ▶️ How to Run
+## ▶️ Como Executar
 
-Put your PDF brokerage notes in:
+Coloque as notas de corretagem em PDF na pasta:
 
 ```
 data/input_pdfs/
 ```
 
-Run:
+Execute:
 
 ```bash
 python main.py --config configs/config.json
 ```
 
-Dry-run mode (does not save Excel):
+Modo de simulação (não salva o Excel):
 
 ```bash
 python main.py --config configs/config.json --dry-run
@@ -148,50 +148,50 @@ python main.py --config configs/config.json --dry-run
 
 ---
 
-## 📊 Output
+## 📊 Resultado
 
-The system generates:
+O sistema gera:
 
-* A consolidated Excel file with:
+* Um arquivo Excel consolidado contendo:
 
-  * Full historical base
-  * One row per operation
-  * Deduplication by operation hash
-  * Compliance flags:
+  * Base histórica completa
+  * Uma linha por operação
+  * Deduplicação por hash da operação
+  * Flags de compliance:
 
     * `is_daytrade`
     * `is_minicontrato`
     * `is_futuro_di`
     * `is_opcao`
     * `is_termo`
-  * Final flag: `flag_alerta`
-* Rows with `flag_alerta_int = 1` are **highlighted automatically**.
+  * Flag final: `flag_alerta`
+* As linhas com `flag_alerta_int = 1` são **destacadas automaticamente** por formatação condicional.
 
 ---
 
-## 🧩 Why This Is Not a Toy Project
+## 🧩 Por Que Este Não É Um Projeto de Brinquedo
 
-This is:
+Este projeto lida com:
 
-* A real-world messy PDF parsing problem
-* With multiple broken layouts
-* Heuristic extraction
-* Deduplication strategy
-* Incremental historical base
-* Compliance logic
-* And operational safeguards (backup, dry-run, logging)
+* PDFs reais e problemáticos
+* Múltiplos layouts quebrados
+* Parsing heurístico
+* Estratégia de deduplicação
+* Base histórica incremental
+* Regras reais de compliance
+* Salvaguardas operacionais (backup, dry-run, logging)
 
-This is the kind of **internal automation system** built in real brokerage and financial operations teams.
-
----
-
-## 🔒 Data Sanitization
-
-All client names, codes and identifiers used in this repository are **placeholders or examples**.
-The real system runs only on internal environments and data.
+Este é exatamente o tipo de **sistema interno de automação** construído em áreas de operações, risco e compliance no mercado financeiro.
 
 ---
 
-## 🚀 Author
+## 🔒 Sanitização de Dados
 
-Built as part of a corporate automation and compliance tooling stack for brokerage operations.
+Todos os nomes, códigos e identificadores de clientes utilizados neste repositório são **exemplos ou placeholders**.
+O sistema real opera exclusivamente em ambiente interno com dados reais.
+
+---
+
+## 🚀 Autor
+
+Desenvolvido como parte de uma stack de automações internas para operações, risco e compliance em um escritório de investimentos.
