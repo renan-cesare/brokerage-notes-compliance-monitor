@@ -79,6 +79,12 @@ brokerage-notes-compliance-monitor/
 
 ---
 
+## ⚙️ Requisitos
+
+* **Python 3.10+**
+
+---
+
 ## ⚙️ Instalação
 
 Crie um ambiente virtual (opcional, mas recomendado):
@@ -98,11 +104,21 @@ pip install -r requirements.txt
 
 ## 🛠️ Configuração
 
-Copie o arquivo de exemplo:
+Copie o arquivo de exemplo e crie sua configuração local.
+
+**Windows (PowerShell):**
+
+```powershell
+Copy-Item configs/config.example.json configs/config.json
+```
+
+**Linux/Mac:**
 
 ```bash
 cp configs/config.example.json configs/config.json
 ```
+
+> Observação: `configs/config.json` não deve ser versionado (já está no `.gitignore`), pois contém caminhos locais.
 
 Edite o arquivo `configs/config.json`:
 
@@ -123,6 +139,15 @@ Edite o arquivo `configs/config.json`:
   }
 }
 ```
+
+---
+
+## 📁 Estrutura de Pastas Locais
+
+Antes de executar, crie as seguintes pastas (se ainda não existirem):
+
+* `data/input_pdfs/` → onde ficarão as notas de corretagem em PDF
+* `data/output/` → onde o Excel final será salvo
 
 ---
 
