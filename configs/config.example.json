@@ -1,0 +1,15 @@
+{
+  "paths": {
+    "pdf_input_dir": "data/input_pdfs",
+    "excel_output_path": "data/output/historico_notas.xlsx"
+  },
+  "excel": {
+    "sheet_name": "Plan1"
+  },
+  "processing": {
+    "backup_before_save": true
+  },
+  "logging": {
+    "level": "INFO"
+  }
+}
